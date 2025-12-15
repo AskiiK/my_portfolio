@@ -78,12 +78,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const card = items[0];
                 if (card) {
-                    // Gap
-                    const trackStyle = window.getComputedStyle(track);
-                    const trackGap = parseFloat(trackStyle.gap) || 24;
+                    // Robust Gap Calculation: Measure distance between first two items if available
+                    let gap = 24; // Default fallback
+                    if (items.length > 1) {
+                        const firstRect = items[0].getBoundingClientRect();
+                        const secondRect = items[1].getBoundingClientRect();
+                        gap = secondRect.left - firstRect.right;
+                    }
+
+                    // Sanity check: if gap is negative or excessively large (e.g., due to wrapping), reset to a safe default
+                    if (gap < 0 || gap > 100) gap = 24;
 
                     const cardWidth = card.getBoundingClientRect().width;
-                    const moveAmount = (cardWidth + trackGap) * itemsPerView;
+                    const moveAmount = (cardWidth + gap) * itemsPerView;
 
                     track.style.transform = `translateX(-${currentPage * moveAmount}px)`;
                 }
