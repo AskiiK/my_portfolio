@@ -50,66 +50,69 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = mailtoLink;
         });
     }
-}
 
-    // Podcast Carousel
-    const track = document.querySelector('.carousel-track');
-const nextButton = document.querySelector('#next-podcast');
+    // Generic Carousel Logic
+    const initCarousel = (trackSelector, btnSelector, autoSlideInterval = 3000) => {
+        const track = document.querySelector(trackSelector);
+        const nextButton = document.querySelector(btnSelector);
 
-if (track && nextButton) {
-    let currentPage = 0;
-    const getItemsPerView = () => {
-        if (window.innerWidth <= 768) return 1;
-        if (window.innerWidth <= 1024) return 2;
-        return 3;
-    };
+        if (track && nextButton) {
+            let currentPage = 0;
 
-    const slideNext = () => {
-        const items = document.querySelectorAll('.carousel-card');
-        const totalItems = items.length;
-        const itemsPerView = getItemsPerView();
-        const totalPages = Math.ceil(totalItems / itemsPerView);
+            const getItemsPerView = () => {
+                if (window.innerWidth <= 768) return 1;
+                if (window.innerWidth <= 1024) return 2;
+                return 3;
+            };
 
-        currentPage++;
+            const slideNext = () => {
+                const items = track.querySelectorAll('.carousel-card');
+                const totalItems = items.length;
+                const itemsPerView = getItemsPerView();
+                const totalPages = Math.ceil(totalItems / itemsPerView);
 
-        // Loop back to start if we exceed total pages
-        if (currentPage >= totalPages) {
-            currentPage = 0;
+                currentPage++;
+                if (currentPage >= totalPages) {
+                    currentPage = 0;
+                }
+
+                const card = items[0];
+                if (card) {
+                    // Gap
+                    const trackStyle = window.getComputedStyle(track);
+                    const trackGap = parseFloat(trackStyle.gap) || 24;
+
+                    const cardWidth = card.getBoundingClientRect().width;
+                    const moveAmount = (cardWidth + trackGap) * itemsPerView;
+
+                    track.style.transform = `translateX(-${currentPage * moveAmount}px)`;
+                }
+            };
+
+            nextButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                slideNext();
+                resetTimer();
+            });
+
+            // Auto Advance
+            let timer = setInterval(slideNext, autoSlideInterval);
+
+            const resetTimer = () => {
+                clearInterval(timer);
+                timer = setInterval(slideNext, autoSlideInterval);
+            };
+
+            window.addEventListener('resize', () => {
+                currentPage = 0;
+                track.style.transform = 'translateX(0)';
+            });
         }
-
-        const card = items[0];
-        if (card) {
-            // Gap
-            const trackStyle = window.getComputedStyle(track);
-            const trackGap = parseFloat(trackStyle.gap) || 24; // Default to 24px if parsing fails
-
-            const cardWidth = card.getBoundingClientRect().width;
-
-            // Amount to move for one "Page" of items
-            // This moves exactly 'itemsPerView' cards to the left
-            const moveAmount = (cardWidth + trackGap) * itemsPerView;
-
-            track.style.transform = `translateX(-${currentPage * moveAmount}px)`;
-        }
     };
 
-    nextButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        slideNext();
-        resetTimer();
-    });
+    // Initialize Podcast Carousel
+    initCarousel('#podcasts .carousel-track', '#next-podcast', 3000);
 
-    // Auto Advance
-    let timer = setInterval(slideNext, 3000);
-
-    const resetTimer = () => {
-        clearInterval(timer);
-        timer = setInterval(slideNext, 3000);
-    };
-
-    window.addEventListener('resize', () => {
-        currentPage = 0;
-        track.style.transform = 'translateX(0)';
-    });
-}
+    // Initialize Experience Carousel
+    initCarousel('#experience-track', '#next-experience', 4000); // Slightly different timing to offset animations
 });
