@@ -50,75 +50,66 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = mailtoLink;
         });
     }
-});
+}
 
-// Podcast Carousel
-(function () {
+    // Podcast Carousel
     const track = document.querySelector('.carousel-track');
-    const nextButton = document.querySelector('#next-podcast');
+const nextButton = document.querySelector('#next-podcast');
 
-    if (track && nextButton) {
-        let currentPage = 0;
+if (track && nextButton) {
+    let currentPage = 0;
+    const getItemsPerView = () => {
+        if (window.innerWidth <= 768) return 1;
+        if (window.innerWidth <= 1024) return 2;
+        return 3;
+    };
 
-        const getItemsPerView = () => {
-            if (window.innerWidth <= 768) return 1;
-            if (window.innerWidth <= 1024) return 2;
-            return 3;
-        };
+    const slideNext = () => {
+        const items = document.querySelectorAll('.carousel-card');
+        const totalItems = items.length;
+        const itemsPerView = getItemsPerView();
+        const totalPages = Math.ceil(totalItems / itemsPerView);
 
-        const slideNext = () => {
-            const items = document.querySelectorAll('.carousel-card');
-            const totalItems = items.length;
-            const itemsPerView = getItemsPerView();
-            const totalPages = Math.ceil(totalItems / itemsPerView);
+        currentPage++;
 
-            currentPage++;
-            if (currentPage >= totalPages) {
-                currentPage = 0;
-            }
-
-            // Calculate move amount based on container width or card width
-            // The flexible card width logic created gaps/issues.
-            // Let's rely on the card's actual width + gap.
-
-            const card = items[0];
-            if (card) {
-                const cardStyle = window.getComputedStyle(card);
-                // We need margins if they exist? No, we used gap.
-
-                // Gap
-                const trackStyle = window.getComputedStyle(track);
-                const trackGap = parseFloat(trackStyle.gap || '24px'); // 1.5rem default
-
-                const cardWidth = card.getBoundingClientRect().width;
-
-                // Amount to move for one "Page" of items
-                const moveAmount = (cardWidth + trackGap) * itemsPerView;
-
-                // If we are on the last page, we might overshoot whitespace if we just multiply.
-                // But for "Next 3", it's expected behavior to shift the view.
-
-                track.style.transform = `translateX(-${currentPage * moveAmount}px)`;
-            }
-        };
-
-        nextButton.addEventListener('click', (e) => {
-            e.preventDefault(); // Good practice
-            slideNext();
-            resetTimer();
-        });
-
-        // Auto Advance with error handling
-        let timer = setInterval(slideNext, 3000);
-
-        const resetTimer = () => {
-            clearInterval(timer);
-            timer = setInterval(slideNext, 3000);
-        };
-
-        window.addEventListener('resize', () => {
+        // Loop back to start if we exceed total pages
+        if (currentPage >= totalPages) {
             currentPage = 0;
-            track.style.transform = 'translateX(0)';
-        });
-    }
-})();
+        }
+
+        const card = items[0];
+        if (card) {
+            // Gap
+            const trackStyle = window.getComputedStyle(track);
+            const trackGap = parseFloat(trackStyle.gap) || 24; // Default to 24px if parsing fails
+
+            const cardWidth = card.getBoundingClientRect().width;
+
+            // Amount to move for one "Page" of items
+            // This moves exactly 'itemsPerView' cards to the left
+            const moveAmount = (cardWidth + trackGap) * itemsPerView;
+
+            track.style.transform = `translateX(-${currentPage * moveAmount}px)`;
+        }
+    };
+
+    nextButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        slideNext();
+        resetTimer();
+    });
+
+    // Auto Advance
+    let timer = setInterval(slideNext, 3000);
+
+    const resetTimer = () => {
+        clearInterval(timer);
+        timer = setInterval(slideNext, 3000);
+    };
+
+    window.addEventListener('resize', () => {
+        currentPage = 0;
+        track.style.transform = 'translateX(0)';
+    });
+}
+});
