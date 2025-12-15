@@ -77,23 +77,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentPage = 0;
             }
 
-            const card = document.querySelector('.carousel-card');
+            // Calculate move amount based on container width or card width
+            // The flexible card width logic created gaps/issues.
+            // Let's rely on the card's actual width + gap.
+
+            const card = items[0];
             if (card) {
-                const cardWidth = card.offsetWidth;
+                const cardStyle = window.getComputedStyle(card);
+                // We need margins if they exist? No, we used gap.
+
+                // Gap
                 const trackStyle = window.getComputedStyle(track);
-                const trackGap = parseFloat(trackStyle.gap || '24px');
+                const trackGap = parseFloat(trackStyle.gap || '24px'); // 1.5rem default
+
+                const cardWidth = card.getBoundingClientRect().width;
+
+                // Amount to move for one "Page" of items
                 const moveAmount = (cardWidth + trackGap) * itemsPerView;
+
+                // If we are on the last page, we might overshoot whitespace if we just multiply.
+                // But for "Next 3", it's expected behavior to shift the view.
 
                 track.style.transform = `translateX(-${currentPage * moveAmount}px)`;
             }
         };
 
-        nextButton.addEventListener('click', () => {
+        nextButton.addEventListener('click', (e) => {
+            e.preventDefault(); // Good practice
             slideNext();
             resetTimer();
         });
 
-        // Auto Advance
+        // Auto Advance with error handling
         let timer = setInterval(slideNext, 3000);
 
         const resetTimer = () => {

@@ -360,14 +360,17 @@ footer {
     height: 100%;
     border: none;
 }
+
 /* Podcast Carousel */
 .carousel-wrapper {
     position: relative;
     width: 100%;
-    max-width: 1200px; /* Slightly wider to accommodate button if needed, or match container */
+    max-width: 1200px;
+    /* Slightly wider to accommodate button if needed, or match container */
     margin: 0 auto;
     overflow: hidden;
-    padding: 1rem 0 3rem; /* Space for shadow/hover and button below or side */
+    padding: 1rem 0 3rem;
+    /* Space for shadow/hover and button below or side */
 }
 
 .carousel-container {
@@ -387,6 +390,8 @@ footer {
     /* Calculation: (100% - (2 * 1.5rem)) / 3 */
     flex: 0 0 calc((100% - 3rem) / 3);
     max-width: calc((100% - 3rem) / 3);
+    /* Ensure they don't shrink */
+    flex-shrink: 0;
 }
 
 .carousel-controls {
