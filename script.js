@@ -51,3 +51,57 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+    // Podcast Carousel
+    const track = document.querySelector('.carousel-track');
+    const nextButton = document.querySelector('#next-podcast');
+    
+    if (track && nextButton) {
+        let currentPage = 0;
+        
+        const getItemsPerView = () => {
+            if (window.innerWidth <= 768) return 1;
+            if (window.innerWidth <= 1024) return 2;
+            return 3;
+        };
+
+        const slideNext = () => {
+            const items = document.querySelectorAll('.carousel-card');
+            const totalItems = items.length;
+            const itemsPerView = getItemsPerView();
+            const totalPages = Math.ceil(totalItems / itemsPerView);
+            
+            currentPage++;
+            if (currentPage >= totalPages) {
+                currentPage = 0;
+            }
+            
+            const card = document.querySelector('.carousel-card');
+            if (card) {
+                const cardWidth = card.offsetWidth;
+                const trackStyle = window.getComputedStyle(track);
+                const trackGap = parseFloat(trackStyle.gap || '24px'); 
+                const moveAmount = (cardWidth + trackGap) * itemsPerView;
+                
+                track.style.transform = `translateX(-${currentPage * moveAmount}px)`;
+            }
+        };
+
+        nextButton.addEventListener('click', () => {
+             slideNext();
+             resetTimer();
+        });
+
+        // Auto Advance
+        let timer = setInterval(slideNext, 3000);
+
+        const resetTimer = () => {
+            clearInterval(timer);
+            timer = setInterval(slideNext, 3000);
+        };
+        
+        window.addEventListener('resize', () => {
+             currentPage = 0;
+             track.style.transform = 'translateX(0)';
+        });
+    }

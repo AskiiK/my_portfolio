@@ -360,3 +360,76 @@ footer {
     height: 100%;
     border: none;
 }
+/* Podcast Carousel */
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1200px; /* Slightly wider to accommodate button if needed, or match container */
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 1rem 0 3rem; /* Space for shadow/hover and button below or side */
+}
+
+.carousel-container {
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.carousel-card {
+    /* 3 cards per view minus gap */
+    /* Calculation: (100% - (2 * 1.5rem)) / 3 */
+    flex: 0 0 calc((100% - 3rem) / 3);
+    max-width: calc((100% - 3rem) / 3);
+}
+
+.carousel-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.carousel-btn {
+    background-color: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--accent-color);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.carousel-btn:hover {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+    transform: scale(1.1);
+}
+
+/* Responsive adjustments for Carousel */
+@media (max-width: 1024px) {
+    .carousel-card {
+        /* 2 cards per view */
+        flex: 0 0 calc((100% - 1.5rem) / 2);
+        max-width: calc((100% - 1.5rem) / 2);
+    }
+}
+
+@media (max-width: 768px) {
+    .carousel-card {
+        /* 1 card per view */
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
