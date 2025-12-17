@@ -60,6 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let currentPage = 0;
 
             const getItemsPerView = () => {
+                // Explicitly force 1 item for Infographics track
+                if (trackSelector.includes('infographics')) return 1;
+
                 if (customGetItemsPerView) return customGetItemsPerView();
 
                 if (window.innerWidth <= 768) return 1;
