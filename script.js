@@ -173,4 +173,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Request Access Button Handler
+    const requestBtns = document.querySelectorAll('.request-btn');
+    requestBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const subject = btn.getAttribute('data-subject');
+            const messageBox = document.getElementById('message');
+            if (messageBox) {
+                messageBox.value = `Hi Abhishek,\n\nI am interested in your ${subject} and would like to discuss it further.\n\nBest regards,`;
+                // Allow smooth scroll to finish then focus
+                setTimeout(() => messageBox.focus(), 800);
+            }
+        });
+    });
 });
