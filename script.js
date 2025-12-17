@@ -122,4 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize Experience Carousel
     initCarousel('#experience-track', '#next-experience', 4000); // Slightly different timing to offset animations
+
+    // Initialize Infographics Carousel
+    initCarousel('#infographics-track', '#next-infographics', 5000);
 });

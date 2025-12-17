@@ -438,3 +438,26 @@ footer {
         max-width: 100%;
     }
 }
+/* Infographic specific styles */
+.image-card {
+    padding: 1.5rem; /* Reduced padding for images */
+}
+
+.infographic-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.infographic-img:hover {
+    transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+    .image-card {
+        padding: 1rem;
+    }
+}
