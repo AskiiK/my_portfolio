@@ -516,10 +516,11 @@ footer {
 }
 
 /* Infographics Carousel Custom Defaults */
+/* Infographics Carousel Custom Defaults */
 #infographics-track .carousel-card {
     /* Always 1 item per view */
-    flex: 0 0 100%;
-    max-width: 100%;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
 }
 
 @media (max-width: 768px) {
