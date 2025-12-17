@@ -125,4 +125,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize Infographics Carousel
     initCarousel('#infographics-track', '#next-infographics', 5000);
+
+    // Lightbox Logic
+    const lightbox = document.getElementById('infographic-lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn = document.querySelector('.lightbox-close');
+
+    if (lightbox) {
+        // Use delegated event listener or select all current images
+        // Since images are static in DOM, direct selection is fine.
+        document.querySelectorAll('.infographic-img').forEach(img => {
+            img.addEventListener('click', () => {
+                lightbox.style.display = 'flex';
+                // Small delay to allow display:flex to apply before opacity transition
+                setTimeout(() => lightbox.classList.add('active'), 10);
+                lightboxImg.src = img.src;
+            });
+        });
+
+        const closeLightbox = () => {
+            lightbox.classList.remove('active');
+            setTimeout(() => {
+                lightbox.style.display = 'none';
+                lightboxImg.src = '';
+            }, 300);
+        };
+
+        if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+    }
 });

@@ -438,26 +438,89 @@ footer {
         max-width: 100%;
     }
 }
+
 /* Infographic specific styles */
 .image-card {
-    padding: 1.5rem; /* Reduced padding for images */
+    padding: 1rem;
 }
 
 .infographic-img {
     width: 100%;
-    height: auto;
+    height: 300px;
+    /* Fixed height for thumbnail consistency */
+    object-fit: cover;
+    /* Crop content to fit */
+    object-position: top;
+    /* Show the top of the infographic */
     border-radius: 8px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: zoom-in;
+    /* Indicate clickable */
 }
 
 .infographic-img:hover {
     transform: scale(1.02);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+}
+
+/* Lightbox Styles */
+.lightbox {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox.active {
+    display: flex;
+    /* Changed from 'block' to 'flex' for centering */
+    opacity: 1;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 90vh;
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    object-fit: contain;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus {
+    color: var(--accent-color);
+    text-decoration: none;
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {
     .image-card {
-        padding: 1rem;
+        padding: 0.5rem;
+    }
+
+    .infographic-img {
+        height: 250px;
     }
 }
