@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Generic Carousel Logic
-    const initCarousel = (trackSelector, btnSelector, autoSlideInterval = 3000) => {
+    const initCarousel = (trackSelector, btnSelector, autoSlideInterval = 3000, customGetItemsPerView = null) => {
         const track = document.querySelector(trackSelector);
         const nextButton = document.querySelector(btnSelector);
 
@@ -60,6 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let currentPage = 0;
 
             const getItemsPerView = () => {
+                if (customGetItemsPerView) return customGetItemsPerView();
+
                 if (window.innerWidth <= 768) return 1;
                 if (window.innerWidth <= 1024) return 2;
                 return 3;
@@ -124,7 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initCarousel('#experience-track', '#next-experience', 4000); // Slightly different timing to offset animations
 
     // Initialize Infographics Carousel
-    initCarousel('#infographics-track', '#next-infographics', 5000);
+    // User requested "not 3 at a time". Configuring for 2 on desktop, 1 on mobile.
+    initCarousel('#infographics-track', '#next-infographics', 5000, () => {
+        return window.innerWidth <= 768 ? 1 : 2;
+    });
 
     // Lightbox Logic
     const lightbox = document.getElementById('infographic-lightbox');

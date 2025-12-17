@@ -515,6 +515,13 @@ footer {
     cursor: pointer;
 }
 
+/* Infographics Carousel Custom Defaults */
+#infographics-track .carousel-card {
+    /* Desktop: 2 items per view */
+    flex: 0 0 calc((100% - 1.5rem) / 2);
+    max-width: calc((100% - 1.5rem) / 2);
+}
+
 @media (max-width: 768px) {
     .image-card {
         padding: 0.5rem;
@@ -522,5 +529,11 @@ footer {
 
     .infographic-img {
         height: 250px;
+    }
+
+    /* Mobile: 1 item per view for Infographics */
+    #infographics-track .carousel-card {
+        flex: 0 0 100%;
+        max-width: 100%;
     }
 }
