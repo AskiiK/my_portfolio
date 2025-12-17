@@ -126,9 +126,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initCarousel('#experience-track', '#next-experience', 4000); // Slightly different timing to offset animations
 
     // Initialize Infographics Carousel
-    // User requested "not 3 at a time". Configuring for 2 on desktop, 1 on mobile.
+    // User requested "1 at a time".
     initCarousel('#infographics-track', '#next-infographics', 5000, () => {
-        return window.innerWidth <= 768 ? 1 : 2;
+        return 1;
     });
 
     // Lightbox Logic
