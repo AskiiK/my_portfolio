@@ -134,6 +134,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return 1;
     });
 
+    // Initialize Strategy Carousel
+    // Desktop: 2, Mobile: 1
+    initCarousel('#strategies-track', '#next-strategies', 6000, () => {
+        return window.innerWidth <= 768 ? 1 : 2;
+    });
+
     // Lightbox Logic
     const lightbox = document.getElementById('infographic-lightbox');
     const lightboxImg = document.getElementById('lightbox-img');

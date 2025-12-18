@@ -518,9 +518,15 @@ footer {
 /* Infographics Carousel Custom Defaults */
 /* Infographics Carousel Custom Defaults */
 #infographics-track .carousel-card {
-    /* Always 1 item per view */
     flex: 0 0 100% !important;
     max-width: 100% !important;
+}
+
+/* Strategy Carousel Custom Defaults */
+#strategies-track .carousel-card {
+    /* Desktop: 2 items per view */
+    flex: 0 0 calc((100% - 1.5rem) / 2);
+    max-width: calc((100% - 1.5rem) / 2);
 }
 
 @media (max-width: 768px) {
@@ -532,7 +538,14 @@ footer {
         height: 250px;
     }
 
+    /* Mobile: 1 item per view for Infographics */
     #infographics-track .carousel-card {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    /* Mobile: 1 item per view for Strategies */
+    #strategies-track .carousel-card {
         flex: 0 0 100%;
         max-width: 100%;
     }
